@@ -4,7 +4,7 @@ use Cwd;
 use File::Spec;
 use Mail::Reporter;
 use vars ('$VERSION', @ISA);
-$VERSION = 0.05;
+$VERSION = 0.06;
 @ISA = 'Mail::Reporter';
 
 local($_, $/, %ENV);
@@ -35,7 +35,8 @@ sub new{
 
   if( -e $self->{_file} ){
     if( open(my $profile, $self->{_file}) ){
-      while( chomp($_ = <$profile>) ){
+      while( <$profile> ){
+	chomp;
 	next unless defined($_);
 	#MH doesn't strip out leading whitespace, so this is okay
 	my @F = split(/:\s*/, $_ ,2);
@@ -111,9 +112,9 @@ Mail::Box::MH::Resource - Manage an MH resource file such as the MH profile
 
   #Get MH directory to pass to Mail::Box::Manager
   my $folderdir = $prof->get('Path');
-  $folderdir = File::Spec->file_name_is_absolute($_->{Path}) ?
-                 $_->{Path} :
-                 File::Spec->catfile($ENV{HOME}, $_->{Path})
+  $folderdir = File::Spec->file_name_is_absolute($folderdir->{Path}) ?
+                                                 $folderdir->{Path}  :
+                 File::Spec->catfile($ENV{HOME}, $folderdir->{Path})
 
   #Permanently remove messages
   $prof->set('rmmproc'=>'rm');

@@ -1,5 +1,8 @@
 Revision history for Perl extension Mail::Box::Profile.
 
+0.06  Mon May 17 20:59:24 UTC 2004
+	- Now warnings safe, with real lemon
+
 0.05
 	- Fixed new to adhere to MH procedure for determining location
 	  of MH directoy in the filsystem (non-absolute MH values are
